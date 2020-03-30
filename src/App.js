@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
 import './App.css';
 import Todos from './components/Todos'
+import Header from './components/layout/Header'
 class App extends Component {
 
   state = {
@@ -23,10 +24,31 @@ class App extends Component {
     ]
   }
 
+  //use arrow function to use this.props
+  //else we have to use this.markComplete.bind()
+  //toggle complete
+  markComplete = (id) => {
+    this.setState({ todos : this.state.todos.map(todo => {
+        if(todo.id === id){
+          //if false change to true and vice versa
+          todo.completed = !todo.completed 
+          }
+        return todo;
+      })
+    })
+  }
+
+  //delete todo
+  delTodo = (id) => {
+    this.setState({ todos: [...this.state.todos.filter(todo => todo.id 
+    !== id)] });
+  }
+
   render(){
     return (
       <div className="App">
-        <Todos todos = {this.state.todos}/>  
+        <Header />
+        <Todos todos = {this.state.todos} markComplete={this.markComplete} delTodo={this.delTodo}/>  
       </div>
     );
   }
